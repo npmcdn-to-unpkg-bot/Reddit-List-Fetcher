@@ -172,6 +172,8 @@ li a {
 }
 .rank {
     overflow: hidden;
+    width: 20px;
+    text-align: center;
 }
 
 .help-block,
