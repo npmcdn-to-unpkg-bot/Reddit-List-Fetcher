@@ -34,6 +34,7 @@ a {text-decoration : none;}
 .domain {
     color: #888;
     white-space: nowrap;
+    font-size : x-small;
 }
 
 
@@ -45,7 +46,7 @@ a {text-decoration : none;}
     text-overflow: ellipsis;
     vertical-align: middle;
     max-width: 19em;
-    font-size : small;
+    font-size : x-small;
 }
 
 .domain a:hover {
