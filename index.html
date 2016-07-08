@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Sub Reddit Fetcher</title>
+    <script data-require="angular.js@1.5.6" data-semver="1.5.6" src="https://code.angularjs.org/1.5.6/angular.min.js"></script>
+    <script data-require="angular-route@*" data-semver="1.4.8" src="https://code.angularjs.org/1.4.8/angular-route.js"></script>
+    <script data-require="moment.js@2.14.1" data-semver="2.14.1" src="https://npmcdn.com/moment@2.14.1"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body ng-app="redditListFetcher" >
+    <div ng-controller="MainController">
+      <h1>List Fetcher</h1>
+      <form name="RedditForm" ng-submit="submitForm()" novalidate="" class="reddit-form">
+        <label>Enter the Sub reddit name : </label>
+        <input type="text" ng-model="subRedditName" name="name" required="" />
+        <p ng-show="RedditForm.name.$invalid && RedditForm.name.$touched" class="help-block">Sub Reddit name is required.</p>
+        <button type="submit" ng-disabled="RedditForm.$invalid">Submit</button>
+      </form>
+      <div ng-show="fetchedLists != null" ng-cloak>
+        <div ng-repeat="list in fetchedLists" ng-init="Index = $index" ng-controller="ListController">
+          <div class="main-container">
+            <span class="rank">{{Index + 1}}</span>
+            <div class="midcol unvoted">
+              <div class="arrow up login-required access-required" data-event-action="upvote" role="button" aria-label="upvote" tabindex="0"></div>
+              <div class="score unvoted">{{list.data.ups}}</div>
+              <div class="arrow down login-required access-required" data-event-action="downvote" role="button" aria-label="downvote" tabindex="0"></div>
+            </div>
+            <div class="entry unvoted">
+              <p class="title">
+                <a class="title outbound " ng-href="{{list.data.url}}" tabindex="1" data-ng-href-url="{{list.data.url}}">{{list.data.title}}</a>
+                <span class="domain">(<a ng-href="https://www.reddit.com/domain/{{list.data.domain}}/">{{list.data.domain}}</a>)</span>
+              </p>
+              <p class="tagline">submitted<time> {{ timeSinceCreated }} ago </time>by                 
+                 <a ng-href="https://www.reddit.com/user/{{list.data.author}}" class="author ">{{list.data.author}}</a>
+              </p>
+              <ul class="flat-list buttons">
+                <li class="first">
+                  <a ng-href="https://www.reddit.com{{list.data.permalink}}" data-event-action="comments" class="comments" rel="nofollow">
+                    <ng-pluralize count="list.data.num_comments" when="{'0': 'comment', 
+                     '1': '{{list.data.num_comments}} comment', 
+                     'other': '{{list.data.num_comments}} comments'}"> </ng-pluralize>
+                  </a>
+                </li>
+                <li class="share">
+                  <a class="post-sharing-button" href="javascript: void 0;">share</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-show="toggle" class="error-page" ng-cloak> No Data Found </div>
+    </div>
+  </body>
+
+</html>
